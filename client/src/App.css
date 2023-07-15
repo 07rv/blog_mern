@@ -101,7 +101,7 @@ form.register h1 {
 }
 
 div.post-page div.image {
-  max-height: 300px;
+  max-height: 100px;
   display: flex;
   overflow: hidden;
 }

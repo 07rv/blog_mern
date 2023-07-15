@@ -22,6 +22,7 @@ const secret = "asdfe45we45w345wegw345werjktjwertkj";
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 mongoose.connect(url);
 
@@ -88,6 +89,15 @@ app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
     });
     res.json(postDoc);
   });
+});
+
+app.get("/post", async (req, res) => {
+  res.json(
+    await Post.find()
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(20)
+  );
 });
 
 app.listen(4000);
