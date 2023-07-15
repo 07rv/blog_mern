@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const fs = require("fs");
 
+require("dotenv").config();
+
 const User = require("./models/User");
 const Post = require("./models/Post");
 const multer = require("multer");
@@ -14,12 +16,11 @@ const uploadMiddleware = multer({ dest: "uploads/" });
 
 const app = express();
 
-const url =
-  "mongodb+srv://28vrohit:PEZfrK8THobm7GB2@cluster0.ptvii7g.mongodb.net/?retryWrites=true&w=majority";
+const url = process.env.MONGO_URI;
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: process.env.CLIENT_URI }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
