@@ -4,13 +4,18 @@ import { useEffect, useState } from "react";
 const IndexPage = () => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:4000/post").then((response) => {
+    fetch(`${process.env.REACT_APP_SERVER_URI}/post`).then((response) => {
       response.json().then((posts) => {
         setPosts(posts);
       });
     });
   }, []);
-  return <>{posts.length > 0 && posts.map((post) => <Post {...post} />)}</>;
+  return (
+    <>
+      {posts.length > 0 &&
+        posts.map((post) => <Post key={post._id} {...post} />)}
+    </>
+  );
 };
 
 export default IndexPage;
