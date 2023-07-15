@@ -28,10 +28,13 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 mongoose.connect(url);
 
 app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const inputField = req.body.inputField;
+  const { firstname, lastname, email, password } = inputField;
   try {
     const userDoc = await User.create({
-      username,
+      firstname,
+      lastname,
+      email,
       password: bcrypt.hashSync(password, salt),
     });
     res.status(200).json(userDoc);
