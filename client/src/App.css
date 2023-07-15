@@ -46,7 +46,11 @@ div.post {
     grid-template-columns: 0.9fr 1.1fr;
   }
 }
-
+div.post div.image img {
+  object-fit: fill;
+  height: 300px;
+  width: 400px;
+}
 div.post div.texts h2 {
   margin: 0;
   font-size: 2rem;
@@ -101,7 +105,7 @@ form.register h1 {
 }
 
 div.post-page div.image {
-  max-height: 100px;
+  max-height: 300px;
   display: flex;
   overflow: hidden;
 }
