@@ -11,7 +11,6 @@ import EditPost from "./pages/EditPost";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserContextProvider } from "./UserContext";
 
-import Login from "./Login";
 function App() {
   return (
     <UserContextProvider>
@@ -19,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<IndexPage />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/create" element={<CreatePost />} />
             <Route path="/post/:id" element={<PostPage />} />
