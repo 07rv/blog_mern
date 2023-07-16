@@ -154,7 +154,7 @@ const Create = () => {
             onClick={createNewPost}
             endIcon={<AddIcon />}
           >
-            Create post
+            Create Post
           </Button>
         </CardActions>
       </Card>

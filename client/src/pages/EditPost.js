@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Editor from "../Editor";
 
-import AddIcon from "@mui/icons-material/Add";
+import UpgradeTwoToneIcon from "@mui/icons-material/UpgradeTwoTone";
 
 import {
   Card,
@@ -166,9 +166,9 @@ const EditPost = () => {
               mb: 2,
             }}
             onClick={updatePost}
-            endIcon={<AddIcon />}
+            endIcon={<UpgradeTwoToneIcon />}
           >
-            Create post
+            Update Post
           </Button>
         </CardActions>
       </Card>
