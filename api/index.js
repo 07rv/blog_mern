@@ -143,7 +143,7 @@ app.get("/post", async (req, res) => {
     await Post.find()
       .populate("author", ["email", "firstname", "lastname"])
       .sort({ createdAt: -1 })
-      .limit(20)
+      .limit(10)
   );
 });
 
