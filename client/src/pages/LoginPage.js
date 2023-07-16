@@ -60,7 +60,6 @@ const LoginPage = () => {
           hasError = true;
         }
       }
-      console.log(hasError, 123);
       return hasError;
     });
   };
