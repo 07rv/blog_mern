@@ -15,7 +15,7 @@ const Post = ({ _id, title, summary, cover, content, createdAt, author }) => {
         </Link>
         <p className="info">
           <Link href={`/`} className="author">
-            {author.username}
+            {author.email}
           </Link>
           <time>{formatISO9075(new Date(createdAt))}</time>
         </p>
