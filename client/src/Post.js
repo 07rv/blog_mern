@@ -1,27 +1,41 @@
-import { Link } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
+import {
+  Grid,
+  Typography,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+} from "@mui/material";
 
 const Post = ({ _id, title, summary, cover, content, createdAt, author }) => {
   return (
-    <div className="post">
-      <div className="image">
-        <Link to={`/post/${_id}`}>
-          <img src={`${process.env.REACT_APP_SERVER_URI}/${cover}`} alt="" />
-        </Link>
-      </div>
-      <div className="texts">
-        <Link to={`/post/${_id}`}>
-          <h2>{title}</h2>
-        </Link>
-        <p className="info">
-          <Link href={`/`} className="author">
-            {author.email}
-          </Link>
-          <time>{formatISO9075(new Date(createdAt))}</time>
-        </p>
-        <p className="summary">{summary}</p>
-      </div>
-    </div>
+    <Grid item xs={12} md={6}>
+      <CardActionArea component="a" href={`/post/${_id}`}>
+        <Card sx={{ display: "flex" }}>
+          <CardContent sx={{ flex: 1 }}>
+            <Typography component="h2" variant="h5">
+              {title}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary">
+              {formatISO9075(new Date(createdAt))}
+            </Typography>
+            <Typography variant="subtitle1" paragraph>
+              {summary.substring(0, 200)}
+            </Typography>
+            <Typography variant="subtitle1" color="primary">
+              Continue reading...
+            </Typography>
+          </CardContent>
+          <CardMedia
+            component="img"
+            sx={{ width: 160, display: { xs: "none", sm: "block" } }}
+            image={`${process.env.REACT_APP_SERVER_URI}/${cover}`}
+            alt={`post`}
+          />
+        </Card>
+      </CardActionArea>
+    </Grid>
   );
 };
 
