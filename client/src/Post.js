@@ -18,6 +18,9 @@ const Post = ({ _id, title, summary, cover, content, createdAt, author }) => {
               {title}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
+              {author.firstname} {author.lastname}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary">
               {formatISO9075(new Date(createdAt))}
             </Typography>
             <Typography variant="subtitle1" paragraph>
