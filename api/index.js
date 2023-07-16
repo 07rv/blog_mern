@@ -28,7 +28,7 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 mongoose.connect(url);
 
 app.post("/register", async (req, res) => {
-  const inputField = req.body.inputField;
+  const inputField = req.body;
   const { firstname, lastname, email, password } = inputField;
   try {
     const userDoc = await User.create({
@@ -44,18 +44,30 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const userDoc = await User.findOne({ username });
+  const { email, password } = req.body;
+  const userDoc = await User.findOne({ email });
   const passOk = bcrypt.compareSync(password, userDoc.password);
   if (passOk) {
     // logged in
-    jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
-      if (err) throw err;
-      res.cookie("token", token).json({
+    jwt.sign(
+      {
+        email,
+        firstname: userDoc.firstname,
+        lastname: userDoc.lastname,
         id: userDoc._id,
-        username,
-      });
-    });
+      },
+      secret,
+      {},
+      (err, token) => {
+        if (err) throw err;
+        res.cookie("token", token).json({
+          id: userDoc._id,
+          email,
+          firstname: userDoc.firstname,
+          lastname: userDoc.lastname,
+        });
+      }
+    );
   } else {
     res.status(400).json("wrong credentials");
   }

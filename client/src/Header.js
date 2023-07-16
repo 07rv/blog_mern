@@ -20,7 +20,6 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
 
 const Header = (props) => {
   const { window } = props;
@@ -44,7 +43,7 @@ const Header = (props) => {
     });
     setUserInfo(null);
   };
-  const username = userInfo?.username;
+  const username = userInfo?.email;
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };

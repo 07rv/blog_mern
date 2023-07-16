@@ -11,27 +11,23 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
 
+import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 const defaultTheme = createTheme();
 
-const RegisterPage = () => {
+const Login = () => {
+  const { setUserInfo } = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
   const [inputField, setInputField] = useState({
-    firstname: "",
-    lastname: "",
     email: "",
     password: "",
-    confirmpassword: "",
   });
   const [errorField, setErrorField] = useState({
-    firstname: "",
-    lastname: "",
     email: "",
     password: "",
-    confirmpassword: "",
   });
 
   const inputsHandler = (name, value) => {
@@ -53,17 +49,7 @@ const RegisterPage = () => {
   const checkAndSetValidationErrors = () => {
     var hasError = false;
     Object.keys(inputField).map((field) => {
-      if (field === "firstname") {
-        if (inputField[field] === "") {
-          setErrorMessage(field, "Enter First Name");
-          hasError = true;
-        }
-      } else if (field === "lastname") {
-        if (inputField[field] === "") {
-          setErrorMessage(field, "Enter Last Name");
-          hasError = true;
-        }
-      } else if (field === "email") {
+      if (field === "email") {
         if (inputField[field] === "") {
           setErrorMessage(field, "Enter Email");
           hasError = true;
@@ -73,36 +59,33 @@ const RegisterPage = () => {
           setErrorMessage(field, "Enter Password");
           hasError = true;
         }
-      } else if (field === "confirmpassword") {
-        if (inputField[field] === "") {
-          setErrorMessage(field, "Enter Confirm Password");
-        } else if (inputField[field] !== inputField["password"]) {
-          setErrorMessage(field, "Confirm Password should match");
-          hasError = true;
-        }
       }
+      console.log(hasError, 123);
       return hasError;
     });
   };
   const handleSubmit = async (event) => {
     if (!checkAndSetValidationErrors()) {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER_URI}/register`,
+        `${process.env.REACT_APP_SERVER_URI}/login`,
         {
           method: "POST",
           body: JSON.stringify(inputField),
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
         }
       );
-      if (response.status === 200) {
-        alert("registration successful");
-        setRedirect(true);
+      if (response.ok) {
+        response.json().then((userInfo) => {
+          setUserInfo(userInfo);
+          setRedirect(true);
+        });
       } else {
-        alert("registration failed");
+        alert("wrong credentials");
       }
     }
   };
-  if (redirect) return <Navigate to={"/login"} />;
+  if (redirect) return <Navigate to={"/"} />;
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -119,7 +102,7 @@ const RegisterPage = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Register
+            Login
           </Typography>
           <Box
             component="form"
@@ -128,42 +111,6 @@ const RegisterPage = () => {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="firstname"
-                  required
-                  error={errorField && errorField.firstname !== ""}
-                  fullWidth
-                  id="firstname"
-                  label="First Name"
-                  autoFocus
-                  defaultValue={inputField.firstname}
-                  onChange={(e) => inputsHandler(e.target.name, e.target.value)}
-                  helperText={
-                    errorField && errorField.firstname !== ""
-                      ? errorField.firstname
-                      : ""
-                  }
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="lastname"
-                  required
-                  error={errorField && errorField.lastname !== ""}
-                  fullWidth
-                  id="lastname"
-                  label="Last Name"
-                  autoFocus
-                  defaultValue={inputField.password}
-                  onChange={(e) => inputsHandler(e.target.name, e.target.value)}
-                  helperText={
-                    errorField && errorField.lastname !== ""
-                      ? errorField.lastname
-                      : ""
-                  }
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   name="email"
@@ -200,24 +147,6 @@ const RegisterPage = () => {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="confirmpassword"
-                  required
-                  error={errorField && errorField.confirmpassword !== ""}
-                  fullWidth
-                  id="confirmpassword"
-                  label="Confirm Password"
-                  type="password"
-                  defaultValue={inputField.confirmpassword}
-                  onChange={(e) => inputsHandler(e.target.name, e.target.value)}
-                  helperText={
-                    errorField && errorField.confirmpassword !== ""
-                      ? errorField.confirmpassword
-                      : ""
-                  }
-                />
-              </Grid>
             </Grid>
             <Button
               onClick={handleSubmit}
@@ -225,12 +154,12 @@ const RegisterPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Sign In
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
+                <Link href="/register" variant="body2">
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
@@ -241,4 +170,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default Login;
