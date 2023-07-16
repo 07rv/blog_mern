@@ -57,7 +57,7 @@ const Create = () => {
       data.set("summary", summary);
       data.set("content", content);
       data.set("file", files[0]);
-      console.log(data);
+
       const response = await fetch(`${process.env.REACT_APP_SERVER_URI}/post`, {
         method: "POST",
         body: data,
