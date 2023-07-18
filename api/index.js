@@ -23,7 +23,11 @@ const secret = process.env.SECRET;
 app.use(
   cors({
     credentials: true,
-    origin: "*",
+    origin: [
+      "http://localhost:3000/",
+      "https://main--velvety-treacle-436d50.netlify.app",
+      "https://rvversebackend.onrender.com",
+    ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
